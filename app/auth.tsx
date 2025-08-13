@@ -62,6 +62,8 @@ export default function AuthScreen(){
                     mode="outlined"
                     style={styles.input}
                     onChangeText={setEmail}
+                    cursorColor= "#727272" 
+                    textColor="#727272"
                 ></TextInput>
                 <TextInput 
                     label="Password"
@@ -70,6 +72,8 @@ export default function AuthScreen(){
                     secureTextEntry
                     style={styles.input}
                     onChangeText={setPassword}
+                    cursorColor= "#727272" 
+                    textColor="#727272"
                 ></TextInput>
                 
                 {error && <Text style={{ color: theme.colors.error}}>{error}</Text>}
@@ -98,9 +102,12 @@ const styles = StyleSheet.create({
     title: {
         textAlign: "center",
         marginBottom: 24,
+        color: "#727272"
     },
     input: {
         marginBottom: 16,
+        backgroundColor: "white",
+        color: "black"
     },
     button: {
         marginTop: 8
