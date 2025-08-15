@@ -43,7 +43,7 @@ export default function Index() {
         [Query.equal("user_id", user?.$id ?? "")]
       );
       console.log(response.documents);
-      setHabits(response.documents as Habit[]);
+      setHabits(response.documents as unknown as Habit[]);
     } catch (error) {
       console.error(error)
     }
