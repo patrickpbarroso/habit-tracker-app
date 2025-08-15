@@ -51,6 +51,14 @@ export default function Index() {
     }
   }
 
+  const handleDeleteHabit = async (id: string) => {
+    try {
+      await databases.deleteDocument(DATABASE_ID, HABITS_COLLECTION_ID, id)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const renderRightActions = () => (
     <View style={styles.swipeActionRight}>
       <MaterialCommunityIcons 
@@ -91,6 +99,13 @@ export default function Index() {
             overshootRight={false}
             renderLeftActions={renderLeftActions}
             renderRightActions={renderRightActions}
+            onSwipeableOpen={(direction) => {
+              if (direction === "right"){
+                handleDeleteHabit(habit.$id)
+              }
+
+              swipeableRefs.current[habit.$id]?.close();
+            }}
             >
               <Surface style={styles.card}>
                 <View style={styles.cardContent}> 
