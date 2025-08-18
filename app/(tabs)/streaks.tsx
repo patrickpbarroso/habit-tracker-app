@@ -1,4 +1,4 @@
-import { COMPLETIONS_COLLECTION_ID, DATABASE_ID, HABITS_COLLECTION_ID, databases } from '@/lib/appwrite';
+import { COMPLETIONS_COLLECTION_ID, DATABASE_ID, HABITS_COLLECTION_ID, RealtimeResponse, client, databases } from '@/lib/appwrite';
 import { useAuth } from '@/lib/auth-context';
 import { Habit, HabitCompletion } from '@/types/database.type';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -14,8 +14,38 @@ export default function StreaksScreen(){
 
     useEffect(() => {
         if (user){
+          const habitsChannel = `databases.${DATABASE_ID}.collections.${HABITS_COLLECTION_ID}.documents`; 
+          const habitsSubscription = client.subscribe(
+            habitsChannel,
+            (response: RealtimeResponse) => {
+              if (response.events.includes("databases.*.collections.*.documents.*.create")){
+                fetchHabits();
+              } else if (response.events.includes("databases.*.collections.*.documents.*.update")){
+                fetchHabits();
+              } else if (response.events.includes("databases.*.collections.*.documents.*.delete")){
+                fetchHabits();
+              }
+            }
+          );
+
+          // completions channel
+          const completionsChannel = `databases.${DATABASE_ID}.collections.${COMPLETIONS_COLLECTION_ID}.documents`; 
+          const completionsSubscription = client.subscribe(
+            completionsChannel,
+            (response: RealtimeResponse) => {
+              if (response.events.includes("databases.*.collections.*.documents.*.create")){
+                fetchCompletions();
+              }
+            }
+          );
+          
           fetchHabits();
           fetchCompletions();
+
+          return () => {
+            habitsSubscription()
+            completionsSubscription();
+          };
         }
       }, [user])
 
