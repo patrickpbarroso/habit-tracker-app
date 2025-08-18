@@ -20,6 +20,7 @@ export default function TabsLayout() {
       <Tabs.Screen 
         name="index"
         options={{
+          headerShown: false,
           title: "Today's Habits",
           tabBarIcon: ({color, size}) => <MaterialCommunityIcons name="calendar-today" size={size} color={color}/>
         }}
@@ -27,6 +28,7 @@ export default function TabsLayout() {
       <Tabs.Screen 
         name="streaks"
         options={{
+          headerShown: false,
           title: "Streaks",
           tabBarIcon: ({color, size}) => <MaterialCommunityIcons name="chart-line" size={size} color={color}/>
         }}

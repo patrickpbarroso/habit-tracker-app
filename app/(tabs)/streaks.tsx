@@ -228,7 +228,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f5f5f5",
-    padding: 16
+    padding: 16,
+    marginTop: 40,
   },
   title: {
     fontWeight: "bold",
@@ -305,7 +306,6 @@ const styles = StyleSheet.create({
     fontWeight: "500"
   },
   rankingContainer: {
-    marginBottom: 24,
     backgroundColor: "#fff",
     borderRadius: 16,
     padding: 16,
