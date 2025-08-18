@@ -3,7 +3,7 @@ import { useAuth } from '@/lib/auth-context';
 import { Habit, HabitCompletion } from '@/types/database.type';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { Query } from 'react-native-appwrite';
 import { Card, Text } from "react-native-paper";
 
@@ -142,12 +142,15 @@ export default function StreaksScreen(){
         <View style={styles.container}>
             <Text style={styles.title}>Habit Streaks</Text>
 
+  
+            
             {habits.length === 0 ? (
                 <View>
                     <Text>There are no habits yet, add your first habbit!</Text>
                 </View>
             ): (
-                rankedHabits.map(({habit, streak, bestStreak, total}, key) => (
+              <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+                {rankedHabits.map(({habit, streak, bestStreak, total}, key) => (
                     <Card key={key} style={[styles.card, key === 0 && styles.firstCard]}>
                         <Card.Content>
                             <Text variant="titleMedium" style={styles.habitTitle}>{habit.title}</Text>
@@ -190,7 +193,8 @@ export default function StreaksScreen(){
                             </View>
                         </Card.Content>
                     </Card>
-                ))
+                ))}
+                </ScrollView>
             )}
         </View>
       )
