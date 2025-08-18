@@ -134,15 +134,37 @@ export default function StreaksScreen(){
         return {habit, bestStreak, streak, total}
       })
 
-      const rankedHabits = habitStreaks.sort((a, b) => a.bestStreak - b.bestStreak)
-
-      console.log(rankedHabits.map((h) => h.habit.title))
+      const rankedHabits = habitStreaks.sort((a, b) => b.bestStreak - a.bestStreak)
     
+      const badgeStyles = [styles.badge1, styles.badge2, styles.badge3]
       return (
         <View style={styles.container}>
-            <Text style={styles.title}>Habit Streaks</Text>
+            <Text style={styles.title} variant="headlineSmall">Habit Streaks</Text>
 
-  
+            {rankedHabits.length > 0 && (
+              <View style={styles.rankingContainer}>
+                {""}
+                <View style={styles.rankBadgeTextContainer}>
+                  <MaterialCommunityIcons 
+                      name="medal" 
+                      size={18} 
+                      color={"#ff9800"}
+                  />
+                  <Text style={styles.rankingTitle}>Top Streaks</Text>{" "}
+                </View>
+                
+                {rankedHabits.slice(0, 3).map((item, key) => (
+                  <View key={key} style={styles.rankingRow}>
+                    <View style={[styles.rankingBadge, badgeStyles[key]]}>
+                      <Text style={styles.rankingBadgeText}> {key + 1} </Text>
+                    </View>
+                      <Text style={styles.rankingHabit}> {item.habit.title} </Text>
+                      <Text style={styles.rankingStreak}> {item.bestStreak} </Text>
+                    
+                  </View>
+                ))}
+              </View>
+            )}
             
             {habits.length === 0 ? (
                 <View>
@@ -164,6 +186,8 @@ export default function StreaksScreen(){
                                           color={"#ff9800"}
                                       />
                                     <Text style={styles.statBadgeText}>{streak}</Text>
+
+                                    
                                   </View>
                                     <Text style={styles.statBadgeLabel}>Current</Text>
                                 </View>
@@ -280,4 +304,71 @@ const styles = StyleSheet.create({
     marginTop: 2,
     fontWeight: "500"
   },
+  rankingContainer: {
+    marginBottom: 24,
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    padding: 16,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    borderWidth: 1,
+    borderColor: "white"
+  },
+  rankBadgeTextContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 18
+  },
+  rankingTitle: {
+    fontWeight: "bold",
+    fontSize: 18,
+    marginLeft: 8,
+    color: "#7c4dff",
+    letterSpacing: 0.5,
+  },
+  rankingRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f0f0f0",
+    paddingBottom: 8
+  },
+  rankingBadge: {
+    width: 28,
+    height: 28,
+    borderRadius: 28,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
+    backgroundColor: "#e0e0e0"
+  },
+  badge1: {
+    backgroundColor: "#ffd700" // gold
+  },
+  badge2: {
+    backgroundColor: "#c0c0c0" // silver 
+  },
+  badge3: {
+    backgroundColor: "#cd7f32" // bronze
+  },
+  rankingBadgeText: {
+    fontWeight: "bold",
+    color: "#fff",
+    fontSize: 15,
+  },
+  rankingHabit: {
+    flex: 1,
+    fontSize: 15,
+    color: "#333",
+    fontWeight: 600,
+  },
+  rankingStreak: {
+    fontSize: 14,
+    color: "#7c4dff",
+    fontWeight: "bold"
+  }
 })
